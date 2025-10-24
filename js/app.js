@@ -61,6 +61,27 @@ let isDragging = false;
 document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.querySelector('.carousel-container');
 
+    // Don't autoplay the first video on page load
+    // Let the user manually start it
+
+    // Track video play/pause state for the overlay icons
+    const videos = document.querySelectorAll('.carousel-video');
+    videos.forEach((video) => {
+        const slide = video.closest('.carousel-slide');
+
+        // Mark all slides as paused initially
+        slide.classList.add('paused');
+
+        // Just listen to native video events, don't interfere with native controls
+        video.addEventListener('pause', function() {
+            slide.classList.add('paused');
+        });
+
+        video.addEventListener('play', function() {
+            slide.classList.remove('paused');
+        });
+    });
+
     if (carousel) {
         // Touch events
         carousel.addEventListener('touchstart', function(e) {
@@ -105,11 +126,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Listen to CSS transition end to ensure video control
         const track = document.getElementById('videoTrack');
         track.addEventListener('transitionend', function() {
-            // Pause all videos except current one, play current video
+            // Pause all videos except current one
+            // Only play current video if it's not manually paused
             const videos = document.querySelectorAll('.carousel-video');
             videos.forEach((video, index) => {
                 if (index === currentSlide) {
-                    video.play();
+                    const slide = video.closest('.carousel-slide');
+                    if (!slide.classList.contains('paused')) {
+                        video.play();
+                    }
                 } else {
                     video.pause();
                 }

@@ -157,7 +157,7 @@
                     <div class="carousel-container">
                         <div class="carousel-track" id="videoTrack">
                             <div class="carousel-slide">
-                                <video class="carousel-video" controls autoplay loop preload="metadata">
+                                <video class="carousel-video" controls loop preload="metadata">
                                     <source src="video/1_quals/1.mp4" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
@@ -207,6 +207,11 @@
 
         <!-- TL;DR Section -->
         <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr style="border-top: 1px solid #444; margin: 30px 0;">
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px;">
                 <h4>
                 <!-- <h4 class="text-center"> -->
@@ -218,33 +223,118 @@
                 <!-- </div> -->
             </div>
         </div>
-        video here
+
+        <!-- Comparison Videos -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 10px;">
+                <video width="100%" controls loop preload="metadata">
+                    <source src="video/2_comp_hunyuan/1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="text-center" style="margin-top: 10px; font-size: 14px;">
+                    HunyuanAvatar* / HunyuanAvatar* + Ours<br>
+                    <span style="font-size: 12px; color: #aaa;">(* HunyuanAvatar is modified to take 5 starting frames for autoregressive generation scheme.)</span>
+                </p>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px;">
+                <video width="100%" controls loop preload="metadata">
+                    <source src="video/2_comp_omni/1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="text-center" style="margin-top: 10px; font-size: 14px;">
+                    OmniAvatar / OmniAvatar + Ours
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr style="border-top: 1px solid #444; margin: 30px 0;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px;">
                 <h4>
-                <!-- <h4 class="text-center"> -->
                     <b>Keyframe <i>ahead of</i>&nbsp; Generation Window</b>
                 </h4>
-                <!-- <div class="tldr-container"> -->
-                    <p class="tldr-text">전통적인 키프레임 기반 접근은: 키프레임 생성 -> 비디오 인터폴레이션으로 이뤄지며 통상적으로 키프레임은 각 세그먼트의 시작, 끝 프레임에 위치합니다.</p>
-                <!-- </div> -->
+                <p class="tldr-text" style="margin-bottom: 12px;">
+                    Traditional keyframe-based approaches follow a two-step pipeline: <b>keyframe generation → video interpolation</b>, where keyframes typically mark the start and end of each segment.
+                </p>
+                <p class="tldr-text" style="margin-bottom: 12px;">
+                    When audio drives the generation, keyframes must be audio-synced. This rigid constraint forces the video to hit exact facial poses at fixed timestamps, limiting motion expressiveness and dynamics.
+                </p>
+                <div style="text-align: center; margin: 10px auto; width: 65%;">
+                    <div style="display: inline-block; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; backdrop-filter: blur(10px);">
+                        <img src="img/moti_1.png" style="width: 100%; max-width: 700px; height: auto; display: block; border-radius: 8px;">
+                    </div>
+                    <p class="text-center" style="margin-top: 10px; font-size: 14px;">
+                    Distant keyframes eliminate audio-sync stage.
+                </p>
+                </div>
+                <p class="tldr-text" style="margin-bottom: 12px; margin-top: 20px;">
+                    <b>But what if keyframes don't have to be in the generated video?</b> What if we place them beyond the segment endpoints—further ahead in time?
+                </p>
+                <p class="tldr-text">
+                    We explore this idea. By positioning keyframes <b>ahead of the generation window</b>, they transform from rigid constraints into soft directional guidance. This dramatically simplifies the framework while delivering superior performance.
+                </p>
             </div>
         </div>
-        image here
 
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 30px; text-align: center;">
+                <video width="70%" controls loop preload="metadata" style="display: inline-block;">
+                    <source src="video/2_comp_keyface/1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="text-center" style="margin-top: 10px; font-size: 14px;">
+                    KeyFace (keyframe-based approach) / Ours
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr style="border-top: 1px solid #444; margin: 30px 0;">
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px;">
                 <h4>
                 <!-- <h4 class="text-center"> -->
-                    <b>Temporal Distance as a Contorlling Factor</b>
+                    <b>Temporal Distance as a Conditioning Strength</b>
                 </h4>
                 <!-- <div class="tldr-container"> -->
-                    <p class="tldr-text">Recent DiT-based human animation models deliver impressive results—but only for a few seconds. Our <b>Lookahead Anchoring</b> is a simple-yet-effective method designed to stay stable against error accumulation and identity drift, even within straightforward temporal autoregressive approaches.</p>
+                    <p class="tldr-text">Models naturally learn
+that longer temporal distances allow for greater scene variation. We exploit this prior strategically:
+distant keyframes provide high-level guidance without imposing strict physical constraints, enabling
+diverse yet coherent generation.</p>
                 <!-- </div> -->
+
             </div>
         </div>
-        image here
+
+        <div style="text-align: center; margin: 0px auto; width: 50%;">
+                    <div style="display: inline-block; padding: 5px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; backdrop-filter: blur(10px);">
+                        <img src="img/moti_2.png" style="width: 100%; max-width: 700px; height: auto; display: block; border-radius: 8px;">
+                    </div>
+                    <p class="text-center" style="margin-top: 10px; font-size: 14px;">
+                    Temporal distance 𝐷 reflects inter-frame relevance.
+                </p>
+                </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr style="border-top: 1px solid #444; margin: 30px 0;">
+            </div>
+        </div>
+
+
+        
+       
+
 
 
         <div class="row">
@@ -275,6 +365,46 @@
 TBD
                         </textarea>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr style="border-top: 1px solid #444; margin: 30px 0;">
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h4>
+                        Related Work
+                    </h4>
+                    <ul style="list-style: none; padding-left: 0; line-height: 1.3;">
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Bigata_KeyFace_Expressive_Audio-Driven_Facial_Animation_for_Long_Sequences_via_KeyFrame_CVPR_2025_paper.html" style="font-size: 14px;">KeyFace: Expressive Audio-Driven Facial Animation for Long Sequences</a>
+                        </li>
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Ji_Sonic_Shifting_Focus_to_Global_Audio_Perception_in_Portrait_Animation_CVPR_2025_paper.html" style="font-size: 14px;">Sonic: Shifting Focus to Global Audio Perception in Portrait Animation</a>
+                        </li>
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="http://203.160.84.158:9988/papers/2504.12626v2.Packing_Input_Frame_Context_in_Next_Frame_Prediction_Models_for_Video_Generation.pdf" style="font-size: 14px;">Packing Input Frame Context in Next Frame Prediction Models</a>
+                        </li>
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="https://arxiv.org/pdf/2505.20156" style="font-size: 14px;">HunyuanVideo-Avatar: High-Fidelity Audio-Driven Human Animation</a>
+                        </li>
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="https://arxiv.org/pdf/2506.18866" style="font-size: 14px;">OmniAvatar: Efficient Audio-Driven Avatar Video Generation</a>
+                        </li>
+                        <li style="margin-bottom: 1px;">
+                            <span style="color: #aaa;">•</span>
+                            <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Cui_Hallo3_Highly_Dynamic_and_Realistic_Portrait_Image_Animation_with_Video_CVPR_2025_paper.html" style="font-size: 14px;">Hallo3: Highly Dynamic and Realistic Portrait Image Animation</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
